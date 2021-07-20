@@ -41,7 +41,8 @@ class PoSTagger extends EventEmitter {
             javaBinary:  "java",
             javaOptions: "-server -Xms1G -Xmx1G",
             tagger:      path.join(__dirname, "stanford-postagger.d/stanford-postagger.jar"),
-            model:       "english"
+            model:       "english",
+            extra: ""
         }, options)
 
         /*  initialize internal state  */
@@ -93,7 +94,8 @@ class PoSTagger extends EventEmitter {
             ...this.options.javaOptions.split(/\s+/),
             "-cp", `${this.options.tagger}:`,
             "edu.stanford.nlp.tagger.maxent.MaxentTagger",
-            "-model", model
+            "-model", model,
+             ...this.options.extra.split(/\s+/),
         ], { stdio: [ "pipe", "pipe", "pipe" ] })
 
         /*  detect shutdown of Stanford PoS-Tagger process  */
